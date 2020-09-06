@@ -5,6 +5,11 @@
 Jupyter Lab extension that visualizes audio frequencies
 
 ## Starting
+Must have a .env file in root with deezer API keys:
+
+DEEZER_APP_ID=1234567
+DEEZER_SECRET_KEY=xyz123abc
+
 conda activate jupyterlab-ext
 jupyter lab --watch
 
