@@ -1,0 +1,26 @@
+Some challenges:
+- Accessing the Deezer API
+  - The documented way to interface with their API is through the js SDK, which is hosted on a CDN - but the source doesn't appear to be hosted on their github
+    - https://github.com/deezer
+    - https://developers.deezer.com/sdk/javascript
+  - This method does not work well with a Jupyter Lab Extension context for many reasons
+    - Integration requires linking to an HTML that executes caching logic configuration
+    - Injecting sripts into the extension's widget doesn't execute the scripts
+    - It potentially requires feeding the SDK secrets (like the app ID, or API secret); it's actually remarkably challenging to do secrets well with Jupyter Lab Extensions. Jupyter Notebooks seem to have it a bit easier, e.g. with py-dotenv - but there is no common approach to loading env vars into Lab. There are extensions that store secrets inside of Jupyter Lab, but they are also intended to be used with notebooks.
+  - There is one example in the deezer github that is useful https://github.com/deezer/code-snippets/blob/master/deezer-sdk-js/simple-deezer-api-request.js - but I would say it's burried in their github; it also relies on jquery, and is not mentioned much in the documentation. I ended up using this method as the basis of the integration (in short, jsonp-based).
+
+- Working out a good way to visualize the waveform
+  - Tried HTML5 natives - AudioContext, AudioBuffer, arrays + FFT transforms via a popular FFT library. This seemed like too long of a road; individual pieces are well documented, but the glue less so - could have potentially taken way too long.
+  - Tried p5 - a sound/graphics library that does FFTs + visualization. It seemed great and powerful, except it didn't seem to easily support loading a sound source via URLs: it relies on files by default. It didn't seem to accept HTML5's sound objects, had its own internal data structures, and I didn't want to deal with translating into them.
+  - Ended up using an old spectrogram visualizer; I had already spent too much time investigating nicer alternatives, and really on non-features, like dealing with the Deezer/jupyter integration - so I wanted to finish faster.
+
+- The Jupyter Lab Extensions environment doesn't seem to be in great shape
+  - I couldn't get hot reloading to work via their `jupyter lab --watch` command - seems it's seasonal/versional: https://github.com/jupyterlab/jupyterlab/issues/6649
+  - In theory there are sourcemaps from the compiled js into the source typescript. In practice, if you try to go to a line that errored out, my browser tab hangs/dies because the files are too large.
+
+Some things that were not challenging:
+- Jupyter Notebook environment set up was great; I haven't used Anaconda before, but it worked easily out of the box, and I felt like it's a tool that can provide a lot of power for minimal work
+- Setting up a widget - I was pleased that after some basic boilerplate, I could work with the DOM and usual JS constructs; this means for more complex problems I'd have access to all the tools in the js ecosystem, and would be able to structure the code effectively
+
+
+All in all, I was sad that the major challenges lay outside of the actual application. The dev loop was slow because hot reloading didn't work, the Deezer integration works fine on plain web pages but horribly inside Jupyter. I would have preferred to spend more time on analyzing the soundwave, representing the frequency distribution in various ways. I've seen many ads for various dev services talk about removing obstacles so companies/developers can focus on the application, but I did not get that feeling this time around.
