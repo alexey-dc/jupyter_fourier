@@ -5,9 +5,12 @@
 Jupyter Lab extension that visualizes audio frequencies
 
 ## Starting
+Make sure you have all the dev tools set up to run extensions. There is an [overall tutorial](https://jupyterlab.readthedocs.io/en/stable/developer/extension_tutorial.html#extension-tutorial) from jupyterlab that explains the setup. In particular, [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html) is a requirement. It's a virtual environment that helps manage multiple package versions for different projects on one machine. With conda, the following should work:
+```
 conda activate jupyterlab-ext
-jupyter lab --watch
 
+jupyter lab --watch
+```
 ## Requirements
 
 * JupyterLab >= 2.0
